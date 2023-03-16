@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -33,5 +35,10 @@ public class User {
     private String zipCode;
     @Column(nullable = false)
     private Boolean builtIn = false;
+
+    @ManyToMany
+    @JoinTable(name = "t_user_role", joinColumns = @JoinColumn(name ="user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
 }
