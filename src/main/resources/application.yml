@@ -1,0 +1,78 @@
+
+server:
+  port: 8080
+
+  error:
+    include-binding-errors: always
+    include-message: always
+    include-stacktrace: never
+
+
+    #servlet:
+    #context-path: /api/v0
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hoopoe_db
+    username: hoopoe_user
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+    #main:
+    #allow-circular-references: true
+
+
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    properties:
+      '[hibernate.format_sql]': true
+
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
+
+logging:
+  file:
+    name: logs/vision.log
+  pattern:
+    file: "%d %-5level [%thread] %logger:%msg%n"
+  level:
+    '[org.springframework.web]': WARN
+    '[org.hibernate]': INFO
+    '[com.safeandfast]': DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+  info:
+    env:
+      enabled: true
+
+  endpoint:
+    health:
+      show-details: always
+
+    shutdown:
+      enabled: true
+
+#vision:
+#  app:
+#    jwtSecret: vision@!23
+#    jwtExpirationMs: 86400000
+
+
+info:
+  application:
+    name: 'Hoopoe Order System'
+    description: 'This is a order system for helping to clients and company'
+    version: '@project.version@'
+
+
