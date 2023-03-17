@@ -4,9 +4,11 @@ import com.hoopoe.domain.User;
 import com.hoopoe.exception.ResourceNotFoundException;
 import com.hoopoe.exception.message.ErrorMessage;
 import com.hoopoe.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
     private UserRepository userRepository;

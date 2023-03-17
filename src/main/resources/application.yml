@@ -63,10 +63,10 @@ management:
     shutdown:
       enabled: true
 
-#vision:
-#  app:
-#    jwtSecret: vision@!23
-#    jwtExpirationMs: 86400000
+hoopoe:
+  app:
+    jwtSecret: hoopoe@!23
+    jwtExpirationMs: 86400000
 
 
 info:
