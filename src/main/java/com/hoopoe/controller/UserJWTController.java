@@ -1,7 +1,9 @@
 package com.hoopoe.controller;
 
+import com.hoopoe.dto.request.LoginRequest;
 import com.hoopoe.dto.request.RegisterRequest;
 import com.hoopoe.dto.response.HResponse;
+import com.hoopoe.dto.response.LoginResponse;
 import com.hoopoe.dto.response.ResponseMessage;
 import com.hoopoe.security.jwt.JwtUtils;
 import com.hoopoe.service.UserService;
@@ -37,6 +39,25 @@ public class UserJWTController {
         hResponse.setMessage(ResponseMessage.REGISTER_RESPONSE_MESSAGE);
         hResponse.setSuccess(true);
         return new ResponseEntity<>(hResponse, HttpStatus.CREATED) ;
+
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> authenticate(@Valid @RequestBody LoginRequest loginRequest){
+
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),loginRequest.getPassword());
+
+        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+
+        UserDetails userDetails= (UserDetails) authentication.getPrincipal();
+
+        String jwtToken = jwtUtils.generateJwtToken(userDetails);
+
+
+        LoginResponse loginResponse=new LoginResponse(jwtToken);
+
+        return new ResponseEntity<>(loginResponse,HttpStatus.OK);
 
     }
 
