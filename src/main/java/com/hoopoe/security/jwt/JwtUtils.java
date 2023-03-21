@@ -14,10 +14,10 @@ import java.util.Date;
 public class JwtUtils {
 
     private static final Logger logger= LoggerFactory.getLogger(JwtUtils.class);
-    @Value("${hoopeo.app.jwtExpirationMs}")
+    @Value("86400000")
     public long jwtExpirationsMs;
 
-    @Value("${hoopeo.app.jwtSecret}")
+    @Value("hoopoe@!23")
     public  String jwtSecret;
 
 

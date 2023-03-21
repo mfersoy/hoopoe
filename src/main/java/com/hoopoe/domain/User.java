@@ -29,10 +29,8 @@ public class User {
     private String email;
     @Column(length = 120, nullable = false)
     private String password;
-    @Column(length = 13)
+    @Column(length = 15)
     private String phoneNumber;
-    @Column(length = 15, nullable = false)
-    private String zipCode;
     @Column(nullable = false)
     private Boolean builtIn = false;
 
