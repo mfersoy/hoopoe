@@ -3,16 +3,19 @@ package com.hoopoe.service;
 import com.hoopoe.domain.Role;
 import com.hoopoe.domain.User;
 import com.hoopoe.domain.enums.RoleType;
+import com.hoopoe.dto.UserDTO;
 import com.hoopoe.dto.request.RegisterRequest;
 import com.hoopoe.exception.ConflictException;
 import com.hoopoe.exception.ResourceNotFoundException;
 import com.hoopoe.exception.message.ErrorMessage;
+import com.hoopoe.mapper.UserMapper;
 import com.hoopoe.repository.UserRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -24,10 +27,13 @@ public class UserService {
 
    private PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository,RoleService roleService, @Lazy PasswordEncoder passwordEncoder){
+   private UserMapper userMapper;
+
+    public UserService(UserRepository userRepository,RoleService roleService, @Lazy PasswordEncoder passwordEncoder, UserMapper userMapper){
         this.userRepository=userRepository;
         this.roleService=roleService;
         this.passwordEncoder=passwordEncoder;
+        this.userMapper=userMapper;
     }
 
     public User getUserByEmail(String email){
@@ -61,4 +67,17 @@ public class UserService {
             userRepository.save(user);
 
     }
+
+    public List<UserDTO> getAllUsers(){
+        List<User> users = userRepository.findAll();
+        List<UserDTO>userDTOS = userMapper.map(users);
+        return  userDTOS;
+    }
+
+    public UserDTO GetUserById(Long id){
+        User user = userRepository.findById(id).orElseThrow(()->
+                new ResourceNotFoundException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE,id)));
+        return userMapper.userToUserDTO(user);
+    }
+
 }
