@@ -9,4 +9,5 @@ public class ResponseMessage {
 
     public static final String REGISTER_RESPONSE_MESSAGE= "Registration Successfully Done";
 
+    public static final String USER_DELETE_RESPONSE__MESSAGE= " User successfully deleted";
 }

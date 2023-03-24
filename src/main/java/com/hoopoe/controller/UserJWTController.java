@@ -7,7 +7,7 @@ import com.hoopoe.dto.response.LoginResponse;
 import com.hoopoe.dto.response.ResponseMessage;
 import com.hoopoe.security.jwt.JwtUtils;
 import com.hoopoe.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,13 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
+@AllArgsConstructor
 public class UserJWTController {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private JwtUtils jwtUtils;
+
+    private final UserService userService;
+
+    private final AuthenticationManager authenticationManager;
+
+    private final JwtUtils jwtUtils;
 
 
 

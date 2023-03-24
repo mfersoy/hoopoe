@@ -12,5 +12,9 @@ public class ErrorMessage {
 
     public static final String ROLE_NOT_FOUND_EXCEPTION = "Role %s not found";
 
+    public static final String PRINCIPAL_NOT_FOUND_MESSAGE = "User not found";
+
+    public static final String NOT_PERMITTED_METHOD_MESSAGE = "You don't have any permission to change this data";
+
 
 }

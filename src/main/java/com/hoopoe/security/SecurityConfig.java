@@ -38,7 +38,7 @@ public class SecurityConfig {
                         .and().authorizeRequests().antMatchers("/register",
                                 "/login", "/files/download/**", "files/display/**",
                                 "contactmessage/visitors", "/car/visitors/**",
-                                "actuator/healt").permitAll()
+                                "actuator/healt", "/actuator/info").permitAll()
                         .anyRequest().authenticated();
                 http.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
                 return  http.build();

@@ -13,8 +13,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 
-@Entity
 @Table(name = "t_role")
+@Entity
 public class Role {
 
     @Id
@@ -28,9 +28,14 @@ public class Role {
     public String toString() {
         return "Role{" +
                 "type=" + type +
-                '}';
+                "}";
     }
 
 
 
 }
+
+
+
+
+
