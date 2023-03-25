@@ -4,7 +4,10 @@ import com.hoopoe.domain.Role;
 import com.hoopoe.domain.User;
 import com.hoopoe.domain.enums.RoleType;
 import com.hoopoe.dto.UserDTO;
+import com.hoopoe.dto.request.AdminUserUpdateRequests;
 import com.hoopoe.dto.request.RegisterRequest;
+import com.hoopoe.dto.request.UpdatePasswordRequest;
+import com.hoopoe.dto.request.UserUpdateRequest;
 import com.hoopoe.exception.BadRequestException;
 import com.hoopoe.exception.ConflictException;
 import com.hoopoe.exception.ResourceNotFoundException;
@@ -13,12 +16,16 @@ import com.hoopoe.mapper.UserMapper;
 import com.hoopoe.repository.UserRepository;
 import com.hoopoe.security.SecurityUtils;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 @Service
 public class UserService {
@@ -107,5 +114,107 @@ public class UserService {
         }
        userRepository.deleteById(user.getId());
     }
+
+    public Page<UserDTO> getUserPage(Pageable pageable) {
+        Page<User> userPage = userRepository.findAll(pageable);
+
+        return getUserDTOPage(userPage);
+    }
+    private Page<UserDTO> getUserDTOPage(Page<User> userPage) {
+        Page<UserDTO> userDTOPage = userPage.map(new Function<User, UserDTO>() {
+            @Override
+            public UserDTO apply(User user) {
+                return userMapper.userToUserDTO(user);
+            }
+        });
+        return userDTOPage;
+    }
+
+    @Transactional
+    public void updateUser(UserUpdateRequest userUpdateRequest){
+        User user = getCurrentUser();
+
+        if(user.getBuiltIn()){
+            throw  new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+        }
+        boolean emailExist= userRepository.existsByEmail(userUpdateRequest.getEmail());
+
+        if(emailExist && !userUpdateRequest.getEmail().equals(user.getEmail())){
+             throw  new ConflictException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST_MESSAGE,userUpdateRequest.getEmail()));
+        }
+
+        userRepository.update(user.getId(), userUpdateRequest.getFirstName(), userUpdateRequest.getLastName(), userUpdateRequest.getPhoneNumber(), userUpdateRequest.getEmail());
+
+    }
+
+    public void updateUserAuth(Long id, AdminUserUpdateRequests adminUserUpdateRequests){
+        User user = getById(id);
+
+        if(user.getBuiltIn()){
+            throw  new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+        }
+
+        boolean emailExist = userRepository.existsByEmail(adminUserUpdateRequests.getEmail());
+
+        if(emailExist && !adminUserUpdateRequests.getEmail().equals(user.getEmail())){
+             throw new ConflictException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST_MESSAGE,adminUserUpdateRequests.getEmail()));
+        }
+
+        if(adminUserUpdateRequests.getPassword()==null){
+            adminUserUpdateRequests.setPassword(user.getPassword());
+        } else {
+            String encodedPassword = passwordEncoder.encode(adminUserUpdateRequests.getPassword());
+            adminUserUpdateRequests.setPassword(encodedPassword);
+        }
+
+        Set<String> userStrRoles = adminUserUpdateRequests.getRoles();
+        Set<Role>  roles = convertRoles(userStrRoles);
+        user.setFirstName(adminUserUpdateRequests.getFirstName());
+        user.setLastName(adminUserUpdateRequests.getLastName());
+        user.setEmail(adminUserUpdateRequests.getEmail());
+        user.setPassword(adminUserUpdateRequests.getPassword());
+        user.setPhoneNumber(adminUserUpdateRequests.getPhoneNumber());
+        user.setBuiltIn(adminUserUpdateRequests.getBuiltIn());
+        user.setRoles(roles);
+        userRepository.save(user);
+
+    }
+
+    public Set<Role> convertRoles(Set<String>pRoles){
+        Set<Role> roles = new HashSet<>();
+
+        if(pRoles==null){
+            Role userRole = roleService.findByType(RoleType.ROLE_CUSTOMER);
+            roles.add(userRole);
+        }else {
+            pRoles.forEach(roleStr -> {
+                if(roleStr.equals(RoleType.ROLE_ADMIN.getName())){
+                    Role adminRole = roleService.findByType(RoleType.ROLE_ADMIN);
+                    roles.add(adminRole);
+                }else {
+                    Role userRole = roleService.findByType(RoleType.ROLE_CUSTOMER);
+                    roles.add(userRole);
+                }
+            });
+        }
+        return roles;
+    }
+
+    public void updatePassword(UpdatePasswordRequest updatePasswordRequest){
+        User user = getCurrentUser();
+
+        if(user.getBuiltIn()){
+            throw  new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+        }
+
+        if(!passwordEncoder.matches(updatePasswordRequest.getOldPassword(),user.getPassword())){
+            throw new BadRequestException(ErrorMessage.PASSWORD_NOT_MATCHED);
+        }
+
+        String hashedPassword = passwordEncoder.encode(updatePasswordRequest.getNewPassword());
+        user.setPassword(hashedPassword);
+        userRepository.save(user);
+    }
+
 
 }

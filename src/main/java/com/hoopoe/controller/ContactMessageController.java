@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -42,6 +43,7 @@ public class ContactMessageController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("(hasRole('ADMIN'))")
     @GetMapping
     public ResponseEntity<List<ContactMessageDTO>>  getAllContactMessage(){
 
@@ -50,13 +52,14 @@ public class ContactMessageController {
         return ResponseEntity.ok(contactMessageDTOList);
 
     }
-
+    @PreAuthorize("(hasRole('ADMIN'))")
     @DeleteMapping("{id}")
     public ResponseEntity<HResponse> deleteContactMessage(@PathVariable Long id){
         contactMessageService.deleteContactMessage(id);
         HResponse response = new HResponse(ResponseMessage.CONTACT_MESSAGE_DELETE_RESPONSE,true);
         return ResponseEntity.ok(response);
     }
+    @PreAuthorize("(hasRole('ADMIN'))")
     @GetMapping("/request")
     public ResponseEntity<ContactMessageDTO> getRequestWithRequestParam(@RequestParam("id") Long id){
 
@@ -65,13 +68,15 @@ public class ContactMessageController {
         ContactMessageDTO contactMessageDTO= contactMessageMapper.contactMessageToContactMessageDTO(contactMessage);
         return ResponseEntity.ok(contactMessageDTO);
     }
-
+    @PreAuthorize("(hasRole('ADMIN'))")
     @GetMapping("{id}")
     public ResponseEntity<ContactMessageDTO> getRequestWithPath(@PathVariable Long id){
         ContactMessage contactMessage = contactMessageService.getContactMessage(id);
         ContactMessageDTO contactMessageDTO= contactMessageMapper.contactMessageToContactMessageDTO(contactMessage);
         return ResponseEntity.ok(contactMessageDTO);
     }
+
+    @PreAuthorize("(hasRole('ADMIN'))")
     @PutMapping("{id}")
     public ResponseEntity<HResponse> updateContactMessage(@PathVariable Long id
             , @Valid @RequestBody ContactMessageRequest contactMessageRequest){
@@ -84,6 +89,7 @@ public class ContactMessageController {
 
     }
 
+    @PreAuthorize("(hasRole('ADMIN'))")
     @GetMapping("/pages")
     public ResponseEntity<Page<ContactMessageDTO>> getAllContactMessageWithPage(@RequestParam("page") int page,
                                                                                 @RequestParam("size") int size,

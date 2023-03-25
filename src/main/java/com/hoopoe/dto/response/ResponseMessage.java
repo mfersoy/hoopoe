@@ -10,4 +10,8 @@ public class ResponseMessage {
     public static final String REGISTER_RESPONSE_MESSAGE= "Registration Successfully Done";
 
     public static final String USER_DELETE_RESPONSE__MESSAGE= " User successfully deleted";
+
+    public static final String USER_UPDATE_RESPONSE_MESSAGE = "User successfully updated";
+
+    public static String USER_PASSWORD_CHANFED_MESSAGE= "Password Successfully Changed";
 }
