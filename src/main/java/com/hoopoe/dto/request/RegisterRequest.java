@@ -31,7 +31,7 @@ public class RegisterRequest {
     @NotBlank(message = "Please provide your password")
     private String password;
 
-    @Size(min = 14,max = 14)
+
     private String phoneNumber;
 
 
