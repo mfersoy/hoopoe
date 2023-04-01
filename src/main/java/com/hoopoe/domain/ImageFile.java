@@ -30,6 +30,13 @@ public class ImageFile {
     @OneToOne(cascade = CascadeType.ALL)
     private  ImageData imageData;
 
+    public ImageFile(String name , String type,ImageData imageData){
+        this.name = name;
+        this.type= type;
+        this.imageData=imageData;
+        this.length=imageData.getData().length;
+    }
+
 
 
 }

@@ -38,7 +38,7 @@ spring:
 
 logging:
   file:
-    name: logs/vision.log
+    name: logs/hoopoe.log
   pattern:
     file: "%d %-5level [%thread] %logger:%msg%n"
   level:
