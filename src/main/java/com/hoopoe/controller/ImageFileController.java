@@ -1,5 +1,7 @@
 package com.hoopoe.controller;
 
+import com.hoopoe.dto.response.ImageSavedResponse;
+import com.hoopoe.dto.response.ResponseMessage;
 import com.hoopoe.service.ImageFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +22,11 @@ public class ImageFileController {
 
     @PostMapping("/upload")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file){
-        String imageId = imageFileService.
+    public ResponseEntity<ImageSavedResponse> uploadFile(@RequestParam("file") MultipartFile file){
+        String imageId = imageFileService.saveImage(file);
 
-        return null;
+        ImageSavedResponse response = new ImageSavedResponse(imageId, ResponseMessage.IMAGE_SAVED_RESPONSE_MESSAGE, true);
+
+        return ResponseEntity.ok(response);
     }
 }

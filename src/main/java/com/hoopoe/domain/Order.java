@@ -40,7 +40,8 @@ public class Order {
     private  Double totalPrice;
 
     @ManyToMany
-    @JoinColumn(name = "product_id")
-    private List<Product> products;
+    @JoinTable(name = "t_order_product", joinColumns = @JoinColumn(name ="order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private Set<Product> roles = new HashSet<>();
 
 }
