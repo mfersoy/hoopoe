@@ -2,6 +2,7 @@ package com.hoopoe.controller;
 
 import com.hoopoe.domain.ImageFile;
 import com.hoopoe.dto.ImageFileDTO;
+import com.hoopoe.dto.response.HResponse;
 import com.hoopoe.dto.response.ImageSavedResponse;
 import com.hoopoe.dto.response.ResponseMessage;
 import com.hoopoe.service.ImageFileService;
@@ -56,6 +57,15 @@ public class ImageFileController {
 
         List<ImageFileDTO> allImageDTO = imageFileService.getAllImages();
         return ResponseEntity.ok(allImageDTO);
+
+    }
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<HResponse> deleteImageFile(@PathVariable String id){
+        imageFileService.removeById(id);
+
+        HResponse hResponse = new HResponse(ResponseMessage.IMAGE_DELETE_RESPONSE_MESSAGE,true);
+        return ResponseEntity.ok(hResponse);
 
     }
 

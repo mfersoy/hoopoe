@@ -13,7 +13,9 @@ public class ResponseMessage {
 
     public static final String USER_UPDATE_RESPONSE_MESSAGE = "User successfully updated";
 
-    public static String USER_PASSWORD_CHANFED_MESSAGE= "Password Successfully Changed";
+    public static final String USER_PASSWORD_CHANFED_MESSAGE= "Password Successfully Changed";
 
-    public static String IMAGE_SAVED_RESPONSE_MESSAGE = "Image Successfully Uploaded ";
+    public static final String IMAGE_SAVED_RESPONSE_MESSAGE = "Image Successfully Uploaded ";
+
+    public static final String IMAGE_DELETE_RESPONSE_MESSAGE = "ImageFile Successfully Deleted";
 }

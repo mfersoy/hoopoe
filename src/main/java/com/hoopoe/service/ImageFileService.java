@@ -56,4 +56,9 @@ public class ImageFileService {
 
 
     }
+
+    public void removeById(String id){
+        ImageFile imageFile = getImageById(id);
+        imageFileRepository.delete(imageFile);
+    }
 }
