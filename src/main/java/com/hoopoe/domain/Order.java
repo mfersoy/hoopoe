@@ -8,9 +8,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 
 @Getter
@@ -40,8 +39,7 @@ public class Order {
     private  Double totalPrice;
 
     @ManyToMany
-    @JoinTable(name = "t_order_product", joinColumns = @JoinColumn(name ="order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Set<Product> roles = new HashSet<>();
+    @JoinColumn(name = "product_id")
+    private List<Product> products;
 
 }
