@@ -38,7 +38,7 @@ public class Order {
     @Column(nullable = false)
     private  Double totalPrice;
 
-    @ManyToMany
+    @OneToMany
     @JoinColumn(name = "product_id")
     private List<Product> products;
 

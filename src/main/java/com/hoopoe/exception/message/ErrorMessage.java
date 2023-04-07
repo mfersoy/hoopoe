@@ -1,6 +1,6 @@
 package com.hoopoe.exception.message;
 
-public class ErrorMessage {
+public abstract class ErrorMessage {
 
     public static final String RESOURCE_NOT_FOUND_MESSAGE = "Resource with %id not found";
 
@@ -19,4 +19,6 @@ public class ErrorMessage {
     public static final String PASSWORD_NOT_MATCHED = "Your password are not matvhed";
 
     public static final String IMAGE_NOT_FOUND_MESSSAGE = "Image with {id} not found";
+
+    public static final String IMAGE_USED_MESSAGE = "Image file used by other product";
 }

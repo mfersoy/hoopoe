@@ -17,10 +17,11 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping("/admin/{imageId}")
+    @PostMapping("/admin/{imageId}/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<HResponse> saveProduct(@PathVariable String imageId, @RequestBody @Valid ProductDTO productDTO){
 
+     //   productService.
 
     return null;
 
