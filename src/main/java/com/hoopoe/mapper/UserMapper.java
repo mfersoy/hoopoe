@@ -1,6 +1,8 @@
 package com.hoopoe.mapper;
 
+import com.hoopoe.domain.Product;
 import com.hoopoe.domain.User;
+import com.hoopoe.dto.ProductDTO;
 import com.hoopoe.dto.UserDTO;
 import org.mapstruct.Mapper;
 
@@ -13,5 +15,7 @@ public interface UserMapper {
     UserDTO userToUserDTO(User user);
 
     List<UserDTO> map(List<User> userList);
+
+
 
 }

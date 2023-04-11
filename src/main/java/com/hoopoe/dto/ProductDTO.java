@@ -16,8 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class ProductDTO {
 
-    @Size(max = 30, message = "size is exceed")
-    @NotBlank(message = "Please provide car model")
+
     private  Long id;
 
     @NotBlank(message = "Please provide car door info")
