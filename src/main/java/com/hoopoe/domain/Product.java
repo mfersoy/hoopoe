@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -29,11 +30,18 @@ public class Product {
     @Column(nullable = false)
     private Double price;
 
+    @Column(nullable = false)
     private Boolean builtIn= false;
+
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "product_id")
     private Set<ImageFile> image;
+
+    @ManyToMany
+    @JoinTable(name = "t_product_category", joinColumns = @JoinColumn(name ="product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories = new HashSet<>();
 
 
 }

@@ -21,5 +21,10 @@ public class ResponseMessage {
 
     public static final String PRODUCT_SAVED_SUCCESSFULLY_MESSAGE = "Product Successfully Saved";
 
-    public static  final String CAR_UPDATE_RESPONSE_MESSAGE = "Product successfully updated";
+    public static  final String PRODUCT_UPDATE_RESPONSE_MESSAGE = "Product successfully updated";
+
+    public static final String PRODUCT_DELETE_RESPONSE_MESSAGE = "Product successfully deleted";
+    public static final String CATEGORY_SAVED_MESSAGE = "Category is saved";
+
+
 }

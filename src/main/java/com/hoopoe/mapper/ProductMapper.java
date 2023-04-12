@@ -1,5 +1,6 @@
 package com.hoopoe.mapper;
 
+import com.hoopoe.domain.Category;
 import com.hoopoe.domain.ImageFile;
 import com.hoopoe.domain.Product;
 import com.hoopoe.dto.ProductDTO;
@@ -16,11 +17,14 @@ import java.util.stream.Collectors;
 public interface ProductMapper {
 
     @Mapping(target = "image", ignore = true)
+    @Mapping(target = "categories", ignore = true)
     Product productDTOToProduct(ProductDTO productDTO);
 
     List<ProductDTO> map(List<Product> products);
 
     @Mapping(source = "image", target = "image", qualifiedByName = "getImageAsString")
+//    @Mapping(source = "categories", target = "categories", qualifiedByName = "getCategory")
+//    @Mapping(target = "image", ignore = true)
     ProductDTO productToProductDTO(Product product);
 
     @Named("getImageAsString")
@@ -29,5 +33,12 @@ public interface ProductMapper {
         imgs = imageFiles.stream().map(imFile -> imFile.getId().toString()).collect(Collectors.toSet());
         return imgs;
     }
+
+//    @Named("getCategory")
+//    public static Set<String> getCategory(Set<Category> categories) {
+//        Set<String> catg = new HashSet<>();
+//        catg = categories.stream().map(category -> category.getType().toString()).collect(Collectors.toSet());
+//        return catg;
+//    }
 
 }

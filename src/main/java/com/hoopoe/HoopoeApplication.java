@@ -1,8 +1,11 @@
 package com.hoopoe;
 
+import com.hoopoe.domain.Category;
 import com.hoopoe.domain.Role;
 import com.hoopoe.domain.User;
+import com.hoopoe.domain.enums.CategoryType;
 import com.hoopoe.domain.enums.RoleType;
+import com.hoopoe.repository.CategoryRepository;
 import com.hoopoe.repository.RoleRepository;
 import com.hoopoe.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -33,6 +36,9 @@ public class HoopoeApplication {
 	PasswordEncoder encoder;
 
 	UserRepository userRepository;
+
+	CategoryRepository categoryRepository;
+
 	@Override
 	public void run(String... args) throws Exception {
 
@@ -47,6 +53,26 @@ public class HoopoeApplication {
 			Role roleAdmin = new Role();
 			roleAdmin.setType(RoleType.ROLE_ADMIN);
 			roleRepository.save(roleAdmin);
+		}
+
+		if(!categoryRepository.findByType(CategoryType.CATEGORY_OTHER).isPresent()){
+			Category categoryOther = new Category();
+
+			categoryOther.setType(CategoryType.CATEGORY_OTHER);
+			categoryRepository.save(categoryOther);
+		}
+
+		if(!categoryRepository.findByType(CategoryType.CATEGORY_DRINK).isPresent()){
+			Category categoryDrink = new Category();
+
+			categoryDrink.setType(CategoryType.CATEGORY_DRINK);
+			categoryRepository.save(categoryDrink);
+		}
+		if(!categoryRepository.findByType(CategoryType.CATEGORY_FOOD).isPresent()){
+			Category categoryFood = new Category();
+
+			categoryFood.setType(CategoryType.CATEGORY_FOOD);
+			categoryRepository.save(categoryFood);
 		}
 
 		if(!userRepository.findByEmail("superadmin@gmail.com").isPresent()){

@@ -1,15 +1,15 @@
 package com.hoopoe.domain.enums;
 
-public enum RoleType {
+public enum CategoryType {
+    CATEGORY_DRINK("Drink"),
 
-    ROLE_CUSTOMER("Customer"),
-    ROLE_ADMIN("Administrator"),
+    CATEGORY_FOOD("Food"),
 
-    ROLE_WORKER("Worker");
+    CATEGORY_OTHER("Other");
 
     private String name;
 
-    private RoleType(String name){
+    private CategoryType(String name){
         this.name= name;
     }
 

@@ -21,4 +21,8 @@ public abstract class ErrorMessage {
     public static final String IMAGE_NOT_FOUND_MESSSAGE = "Image with {id} not found";
 
     public static final String IMAGE_USED_MESSAGE = "Image file used by other product";
+
+    public static final String CATEGORY_NOT_FOUND = "Category not found";
+
+    public static final String CATEGORY_NOT_FOUND_EXCEPTION = "Category %s not found";
 }

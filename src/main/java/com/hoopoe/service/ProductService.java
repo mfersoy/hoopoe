@@ -1,7 +1,9 @@
 package com.hoopoe.service;
 
+import com.hoopoe.domain.Category;
 import com.hoopoe.domain.ImageFile;
 import com.hoopoe.domain.Product;
+import com.hoopoe.domain.enums.CategoryType;
 import com.hoopoe.dto.ProductDTO;
 import com.hoopoe.exception.BadRequestException;
 import com.hoopoe.exception.ConflictException;
@@ -10,6 +12,8 @@ import com.hoopoe.exception.message.ErrorMessage;
 import com.hoopoe.mapper.ProductMapper;
 import com.hoopoe.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -28,6 +32,9 @@ public class ProductService {
     @Autowired
     private ProductMapper productMapper;
 
+    @Autowired
+    private CategoryService categoryService;
+
     public void saveProduct(String imageId, ProductDTO productDTO){
 
         ImageFile imageFile = imageFileService.getImageById(imageId);
@@ -38,12 +45,20 @@ public class ProductService {
         if(usedProductCount>0){
             throw new ConflictException(ErrorMessage.IMAGE_USED_MESSAGE);
         }
-
-        Product product = productMapper.productDTOToProduct(productDTO);
-
+        Category category = categoryService.findByType(CategoryType.CATEGORY_OTHER);
+        Set<Category> categories = new HashSet<>();
+        categories.add(category);
         Set<ImageFile> setOfImFiles = new HashSet<>();
         setOfImFiles.add(imageFile);
+
+        Product product = new Product();
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setPrice(productDTO.getPrice());
         product.setImage(setOfImFiles);
+        product.setCategories(categories);
+
+
 
         productRepository.save(product);
     }
@@ -73,6 +88,10 @@ public class ProductService {
 
         List<Product> productList = productRepository.findProductByImageId(imageFile.getId());
 
+        Category category = categoryService.findByType(CategoryType.CATEGORY_OTHER);
+        Set<Category> categories = new HashSet<>();
+        categories.add(category);
+
         for(Product p: productList){
             if(product.getId().longValue()!=p.getId().longValue()){
                 throw new ConflictException(ErrorMessage.IMAGE_USED_MESSAGE);
@@ -83,11 +102,29 @@ public class ProductService {
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
         product.getImage().add(imageFile);
+        product.setCategories(categories);
 
         productRepository.save(product);
 
     }
 
+    public void removeById(Long id){
+        Product product = getProduct(id);
+
+        if(product.getBuiltIn()){
+            throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+        }
+
+        productRepository.delete(product);
+
+    }
+
+    public Page<ProductDTO> findAllWithPage(Pageable pageable){
+        Page<Product> productPage = productRepository.findAll(pageable);
+
+        return  productPage.map(product -> productMapper.productToProductDTO(product));
+
+    }
 
 
 }

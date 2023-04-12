@@ -1,5 +1,7 @@
 package com.hoopoe.dto;
 
+import com.hoopoe.domain.Category;
+import com.hoopoe.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +9,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -31,4 +33,16 @@ public class ProductDTO {
     private Boolean builtIn;
 
     private Set<String> image;
+
+    private Set<String> categories;
+
+    public void setCategories(Set<Category> categories){
+        Set<String> categoryStr = new HashSet<>();
+
+        categories.forEach(c->{
+            categoryStr.add(c.getType().getName());
+        });
+        this.categories = categoryStr;
+
+    }
 }
