@@ -2,6 +2,8 @@ package com.hoopoe.repository;
 
 import com.hoopoe.domain.Product;
 import com.hoopoe.dto.ProductDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,6 +27,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @EntityGraph(attributePaths = "image")
     Optional<Product> findProductById(Long id);
+
+    @EntityGraph(attributePaths = {"image"})
+    Page<Product> findAll(Pageable pageable);
 
 
 

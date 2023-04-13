@@ -1,5 +1,6 @@
 package com.hoopoe.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hoopoe.domain.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,5 +42,8 @@ public class Order {
     @OneToMany
     @JoinColumn(name = "product_id")
     private List<Product> products;
+
+    @Column(nullable = false)
+    private String table;
 
 }
