@@ -10,7 +10,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
-
+import java.util.Set;
 
 
 @Getter
@@ -41,7 +41,7 @@ public class Order {
 
     @OneToMany
     @JoinColumn(name = "product_id")
-    private List<Product> products;
+    private Set<Product> products;
 
     @Column(nullable = false)
     private String table;

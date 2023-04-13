@@ -1,5 +1,6 @@
 package com.hoopoe.controller;
 
+import com.hoopoe.domain.Product;
 import com.hoopoe.dto.ProductDTO;
 import com.hoopoe.dto.response.HResponse;
 import com.hoopoe.dto.response.ResponseMessage;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/product")
@@ -80,9 +82,6 @@ public class ProductController {
         Page<ProductDTO> productDTOS = productService.findAllWithPage(pageable);
         return ResponseEntity.ok(productDTOS);
     }
-
-
-
 
 
 
