@@ -27,5 +27,7 @@ public class ResponseMessage {
 
     public static final String PRODUCT_ADDED_TO_SET = "Product added to pacage";
 
+    public static final String ORDER_IS_SAVED = "Order is saved";
+
 
 }

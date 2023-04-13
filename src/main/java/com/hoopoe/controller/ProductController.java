@@ -1,9 +1,12 @@
 package com.hoopoe.controller;
 
+
 import com.hoopoe.domain.Product;
 import com.hoopoe.dto.ProductDTO;
+import com.hoopoe.dto.request.OrderRequest;
 import com.hoopoe.dto.response.HResponse;
 import com.hoopoe.dto.response.ResponseMessage;
+import com.hoopoe.mapper.ProductMapper;
 import com.hoopoe.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,12 +23,16 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
+
 @RestController
 @RequestMapping("/product")
 public class ProductController {
 
    @Autowired
    private ProductService productService;
+
+   @Autowired
+   private ProductMapper productMapper;
 
     @PostMapping("/admin/{imageId}/add")
     @PreAuthorize("hasRole('ADMIN')")
@@ -82,6 +89,9 @@ public class ProductController {
         Page<ProductDTO> productDTOS = productService.findAllWithPage(pageable);
         return ResponseEntity.ok(productDTOS);
     }
+
+    //for creating order
+
 
 
 
