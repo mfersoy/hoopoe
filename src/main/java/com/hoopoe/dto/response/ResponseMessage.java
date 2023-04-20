@@ -31,5 +31,6 @@ public class ResponseMessage {
 
     public static final String PRODUCT_ADD_TO_SHOPPING_CART = "Product added your shopping cart";
 
+    public static final String PRODUCT_DELETED_FROM_SHOPPING = "Product deleted from shopping cart";
 
 }

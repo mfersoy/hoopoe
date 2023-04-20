@@ -31,5 +31,31 @@ public class ShoppingCartRestController {
         return  ResponseEntity.ok(hResponse);
     }
 
+    // http://localhost:8080/shoppingcart/cart/update/2?quantity=5
+    @PostMapping("cart/update/{productId}")
+    @PreAuthorize("hasRole('ADMIN') OR hasRole('CUSTOMER') OR hasRole('WORKER')")
+    public String updateQuantity(@PathVariable Long productId, @RequestParam("quantity") Integer quantity){
+        User user = userService.getCurrentUser();
+        Double price= cartService.updateQuantity(productId,quantity,user);
+
+        return String.valueOf(price);
+    }
+
+    @DeleteMapping("cart/remove/{productId}")
+    @PreAuthorize("hasRole('ADMIN') OR hasRole('CUSTOMER') OR hasRole('WORKER')")
+    public ResponseEntity<HResponse> removeProduct(@PathVariable Long productId){
+        User user = userService.getCurrentUser();
+        cartService.removeProduct(productId,user);
+
+        HResponse response = new HResponse(ResponseMessage.PRODUCT_DELETED_FROM_SHOPPING,true);
+        return ResponseEntity.ok(response);
+
+    }
+
+
+
+
+
+
 
 }

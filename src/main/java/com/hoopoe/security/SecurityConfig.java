@@ -37,8 +37,8 @@ public class SecurityConfig {
                         .and().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .and().authorizeRequests().antMatchers("/register",
                                 "/login", "/files/download/**", "files/display/**",
-                                "contactmessage/visitors", "/car/visitors/**",
-                                "actuator/healt", "/actuator/info").permitAll()
+                                "contactmessage/visitors", "/product/visitors/**",
+                                "actuator/healt", "/actuator/info", "/cart").permitAll()
                         .anyRequest().authenticated();
                 http.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
                 return  http.build();
