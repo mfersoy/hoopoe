@@ -25,4 +25,6 @@ public abstract class ErrorMessage {
     public static final String CATEGORY_NOT_FOUND = "Category not found";
 
     public static final String CATEGORY_NOT_FOUND_EXCEPTION = "Category %s not found";
+
+    public static final String STATUS_NOT_FOUND = "Status not fount";
 }

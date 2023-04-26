@@ -33,4 +33,6 @@ public class ResponseMessage {
 
     public static final String PRODUCT_DELETED_FROM_SHOPPING = "Product deleted from shopping cart";
 
+    public static final String ORDER_SAVED = "Order saved";
+
 }
