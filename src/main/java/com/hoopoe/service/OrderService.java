@@ -4,6 +4,7 @@ import com.hoopoe.domain.CartItem;
 import com.hoopoe.domain.Order;
 import com.hoopoe.domain.OrderDetail;
 import com.hoopoe.domain.User;
+import com.hoopoe.dto.request.TableRequest;
 import com.hoopoe.repository.OrderDetailRepository;
 import com.hoopoe.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class OrderService {
     private OrderRepository orderRepository;
 
 
-    public void addOrder(String table){
+    public void addOrder(TableRequest tables){
 
         Order order = new Order();
         User user = userService.getCurrentUser();
@@ -57,12 +58,13 @@ public class OrderService {
         }
 
 
-        order.setTable(table);
+        order.setTables(tables.getTable());
         order.setFirstName(user.getFirstName());
         order.setLastName(user.getLastName());
         order.setOrderDetailSet(orderDetailSet);
         order.setLocalDateTime(localDateTime);
         order.setTotalPrice(estimatedTotal);
+        order.setUser(user);
 
         orderRepository.save(order);
 

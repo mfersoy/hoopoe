@@ -1,5 +1,6 @@
 package com.hoopoe.controller;
 
+import com.hoopoe.dto.request.TableRequest;
 import com.hoopoe.dto.response.HResponse;
 import com.hoopoe.dto.response.ResponseMessage;
 import com.hoopoe.service.OrderService;
@@ -21,9 +22,9 @@ public class OrderController {
 
     @PostMapping("/save")
     @PreAuthorize("hasRole('ADMIN') OR hasRole('CUSTOMER') OR hasRole('WORKER')")
-    public ResponseEntity<HResponse> addOrder(@RequestBody @Valid String table){
+    public ResponseEntity<HResponse> addOrder(@RequestBody @Valid TableRequest tables){
 
-        orderService.addOrder(table);
+        orderService.addOrder(tables);
         HResponse response = new HResponse(ResponseMessage.ORDER_IS_SAVED,true);
         return ResponseEntity.ok(response);
     }

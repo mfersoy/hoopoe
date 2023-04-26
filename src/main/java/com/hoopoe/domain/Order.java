@@ -14,7 +14,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "t_order")
+@Table(name = "t_ordertable")
 @Entity
 public class Order {
 
@@ -32,10 +32,14 @@ public class Order {
     private Double totalPrice;
 
     @Column(nullable = false)
-    private String table;
+    private String tables;
 
     @Column(nullable = false)
     private LocalDateTime localDateTime;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     @ManyToMany
     @JoinTable(name = "t_order_orderdetail", joinColumns = @JoinColumn(name ="order_id"),
