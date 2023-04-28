@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TableRequest {
+public class OrderRequest {
 
     @Size(max = 50)
     @NotBlank(message = "Please provide your first name")

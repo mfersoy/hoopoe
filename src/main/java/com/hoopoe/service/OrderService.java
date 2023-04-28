@@ -4,13 +4,17 @@ import com.hoopoe.domain.CartItem;
 import com.hoopoe.domain.Order;
 import com.hoopoe.domain.OrderDetail;
 import com.hoopoe.domain.User;
-import com.hoopoe.dto.request.TableRequest;
+import com.hoopoe.dto.OrderDTO;
+import com.hoopoe.dto.request.OrderRequest;
+import com.hoopoe.mapper.OrderMapper;
+import com.hoopoe.repository.CartItemRepository;
 import com.hoopoe.repository.OrderDetailRepository;
 import com.hoopoe.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,8 +32,14 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private CartItemRepository cartItemRepository;
 
-    public void addOrder(TableRequest tables){
+    @Autowired
+    private OrderMapper orderMapper;
+
+
+    public void addOrder(OrderRequest tables){
 
         Order order = new Order();
         User user = userService.getCurrentUser();
@@ -45,6 +55,7 @@ public class OrderService {
             orderDetail.setUser(user);
             orderDetailRepository.save(orderDetail);
         }
+
 
         List<OrderDetail> orderDetailList = orderDetailRepository.findByUser(user);
 
@@ -67,9 +78,15 @@ public class OrderService {
         order.setUser(user);
 
         orderRepository.save(order);
+        cartItemRepository.deleteAll();
 
+    }
 
+    public List<OrderDTO> getAllOrders(){
 
-
+        List<Order> orders = orderRepository.findAll();
+        List<OrderDTO> orderDTOS= new ArrayList<>();
+        orders.forEach(order ->orderDTOS.add(orderMapper.orderToOrderDTO(order)));
+        return  orderDTOS;
     }
 }
