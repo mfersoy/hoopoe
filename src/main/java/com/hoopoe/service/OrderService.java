@@ -118,6 +118,14 @@ public class OrderService {
         return orderMapper.orderToOrderDTO(order);
     }
 
+    public void removeOrderById(Long id){
+        boolean exist = orderRepository.existsById(id);
+        if(!exist){
+            throw new ResourceNotFoundException(String.format((ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE)));
+        }
+        orderRepository.deleteById(id);
+    }
+
 
 
 

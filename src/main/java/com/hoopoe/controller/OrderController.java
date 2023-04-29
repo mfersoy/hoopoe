@@ -66,6 +66,14 @@ public class OrderController {
         return ResponseEntity.ok(orderDTO);
     }
 
+    @DeleteMapping("/admin/{id}/auth")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<HResponse> deleteOrder(@PathVariable Long id){
+        orderService.removeOrderById(id);
+        HResponse hResponse= new HResponse(ResponseMessage.ORDER_ROMEVED,true);
+        return  ResponseEntity.ok(hResponse);
+    }
+
 
 
 

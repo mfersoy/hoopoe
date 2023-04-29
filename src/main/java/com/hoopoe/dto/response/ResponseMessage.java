@@ -35,4 +35,6 @@ public class ResponseMessage {
 
     public static final String ORDER_SAVED = "Order saved";
 
+    public static final String ORDER_ROMEVED= "Order is removed";
+
 }
