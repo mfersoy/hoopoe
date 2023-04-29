@@ -6,11 +6,15 @@ import com.hoopoe.domain.OrderDetail;
 import com.hoopoe.domain.User;
 import com.hoopoe.dto.OrderDTO;
 import com.hoopoe.dto.request.OrderRequest;
+import com.hoopoe.exception.ResourceNotFoundException;
+import com.hoopoe.exception.message.ErrorMessage;
 import com.hoopoe.mapper.OrderMapper;
 import com.hoopoe.repository.CartItemRepository;
 import com.hoopoe.repository.OrderDetailRepository;
 import com.hoopoe.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,6 +22,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
+
 @Service
 public class OrderService {
     @Autowired
@@ -89,4 +95,30 @@ public class OrderService {
         orders.forEach(order ->orderDTOS.add(orderMapper.orderToOrderDTO(order)));
         return  orderDTOS;
     }
+
+    public Page<OrderDTO> findOrderPageByUser(User user, Pageable pageable) {
+        Page<Order> orderPage = orderRepository.findAllByUser(user, pageable);
+        return getOrderDTOPage(orderPage);
+    }
+
+    private Page<OrderDTO> getOrderDTOPage(Page<Order> orderPage) {
+        Page<OrderDTO> orderDTOPage = orderPage.map(new Function<Order, OrderDTO>() {
+            @Override
+            public OrderDTO apply(Order order) {
+                return orderMapper.orderToOrderDTO(order);
+            }
+        });
+        return orderDTOPage;
+    }
+
+    public OrderDTO findByIdAndUser(Long id, User user) {
+        Order order = orderRepository.findByIdAndUser(id, user).orElseThrow(() -> new
+                ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+
+        return orderMapper.orderToOrderDTO(order);
+    }
+
+
+
+
 }

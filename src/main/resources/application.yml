@@ -8,8 +8,8 @@ server:
     include-stacktrace: never
 
 
-    #servlet:
-    #context-path: /api/v0
+    servlet:
+    context-path: /api
 
 spring:
   datasource:
