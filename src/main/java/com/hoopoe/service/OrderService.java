@@ -127,6 +127,12 @@ public class OrderService {
     }
 
 
+    public List<OrderDTO> getUserOrdersByStatus(String status){
 
+        List<Order> orders = orderRepository.findByStatus(status);
+        List<OrderDTO> orderDTOS= new ArrayList<>();
+        return null;
+
+    }
 
 }

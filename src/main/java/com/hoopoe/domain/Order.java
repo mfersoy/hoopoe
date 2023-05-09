@@ -45,4 +45,9 @@ public class Order {
     @JoinTable(name = "t_order_orderdetail", joinColumns = @JoinColumn(name ="order_id"),
             inverseJoinColumns = @JoinColumn(name = "orderdetail_id"))
     private Set<OrderDetail> orderDetailSet = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "t_order_orderstatus", joinColumns = @JoinColumn(name ="order_id"),
+            inverseJoinColumns = @JoinColumn(name = "orderstatus_id"))
+    private Set<OrderStatus> orderStatuses = new HashSet<>();
 }

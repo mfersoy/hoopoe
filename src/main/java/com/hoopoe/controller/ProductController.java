@@ -55,6 +55,7 @@ public class ProductController {
 
     }
 
+
     @PutMapping("/admin/auth")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<HResponse> updateProduct(@RequestParam("id") Long id, @RequestParam("imageId") String imageId, @RequestBody @Valid ProductDTO productDTO){
@@ -68,7 +69,7 @@ public class ProductController {
 
     @DeleteMapping("/admin/{id}/auth")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<HResponse> deleteCar(@PathVariable Long id){
+    public ResponseEntity<HResponse> deleteProduct(@PathVariable Long id){
 
         productService.removeById(id);
         HResponse response = new HResponse(ResponseMessage.PRODUCT_DELETE_RESPONSE_MESSAGE,true);

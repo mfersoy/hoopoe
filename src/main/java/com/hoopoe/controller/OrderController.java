@@ -1,5 +1,6 @@
 package com.hoopoe.controller;
 
+import com.hoopoe.domain.OrderStatus;
 import com.hoopoe.domain.User;
 import com.hoopoe.dto.OrderDTO;
 import com.hoopoe.dto.request.OrderRequest;
@@ -47,7 +48,7 @@ public class OrderController {
 
     @GetMapping("/auth/all")
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
-    public ResponseEntity<Page<OrderDTO>> getAllUserReservations(@RequestParam("page") int page,
+    public ResponseEntity<Page<OrderDTO>> getAllUserOrders(@RequestParam("page") int page,
                                                                        @RequestParam("size") int size,
                                                                        @RequestParam("sort") String prop,
                                                                        @RequestParam(value = "direction", required = false, defaultValue = "DESC") Sort.Direction direction) {
@@ -65,6 +66,15 @@ public class OrderController {
         OrderDTO orderDTO = orderService.findByIdAndUser(id, user);
         return ResponseEntity.ok(orderDTO);
     }
+
+    @GetMapping("{status}/auth")
+    @PreAuthorize("hasRole('ADMIN') OR hasRole('WORKER')")
+    public ResponseEntity<List<OrderDTO>> getUserOrdersByType(@PathVariable String status){
+        User user= userService.getCurrentUser();
+        List<OrderDTO> orderDTOS = orderService.getUserOrdersByStatus(status);
+        return null;
+    }
+
 
     @DeleteMapping("/admin/{id}/auth")
     @PreAuthorize("hasRole('ADMIN')")
