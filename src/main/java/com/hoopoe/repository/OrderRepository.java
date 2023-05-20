@@ -1,7 +1,10 @@
 package com.hoopoe.repository;
 
 import com.hoopoe.domain.Order;
+import com.hoopoe.domain.OrderStatus;
 import com.hoopoe.domain.User;
+import com.hoopoe.domain.enums.OrderStatusType;
+import org.hibernate.sql.Select;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,7 +23,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     Optional<Order> findByIdAndUser(Long id, User user);
 
-    @Query
+    @Query("Select o from Order o JOIN o.orderStatuses os WHERE os.type=:status")
     List<Order> findByStatus(String status);
 
 

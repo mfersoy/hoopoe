@@ -1,9 +1,7 @@
 package com.hoopoe.service;
 
-import com.hoopoe.domain.CartItem;
-import com.hoopoe.domain.Order;
-import com.hoopoe.domain.OrderDetail;
-import com.hoopoe.domain.User;
+import com.hoopoe.domain.*;
+import com.hoopoe.domain.enums.OrderStatusType;
 import com.hoopoe.dto.OrderDTO;
 import com.hoopoe.dto.request.OrderRequest;
 import com.hoopoe.exception.ResourceNotFoundException;
@@ -131,7 +129,8 @@ public class OrderService {
 
         List<Order> orders = orderRepository.findByStatus(status);
         List<OrderDTO> orderDTOS= new ArrayList<>();
-        return null;
+        orders.forEach(order ->orderDTOS.add(orderMapper.orderToOrderDTO(order)));
+        return orderDTOS;
 
     }
 

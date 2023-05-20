@@ -2,6 +2,7 @@ package com.hoopoe.controller;
 
 import com.hoopoe.domain.OrderStatus;
 import com.hoopoe.domain.User;
+import com.hoopoe.domain.enums.OrderStatusType;
 import com.hoopoe.dto.OrderDTO;
 import com.hoopoe.dto.request.OrderRequest;
 import com.hoopoe.dto.response.HResponse;
@@ -67,12 +68,12 @@ public class OrderController {
         return ResponseEntity.ok(orderDTO);
     }
 
-    @GetMapping("{status}/auth")
+    @GetMapping("status/auth")
     @PreAuthorize("hasRole('ADMIN') OR hasRole('WORKER')")
-    public ResponseEntity<List<OrderDTO>> getUserOrdersByType(@PathVariable String status){
+    public ResponseEntity<List<OrderDTO>> getUserOrdersByType(@RequestBody @Valid String status){
         User user= userService.getCurrentUser();
         List<OrderDTO> orderDTOS = orderService.getUserOrdersByStatus(status);
-        return null;
+        return ResponseEntity.ok(orderDTOS);
     }
 
 
