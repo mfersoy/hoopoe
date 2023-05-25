@@ -32,9 +32,9 @@ public class OrderController {
 
     @PostMapping("/save")
     @PreAuthorize("hasRole('ADMIN') OR hasRole('CUSTOMER') OR hasRole('WORKER')")
-    public ResponseEntity<HResponse> addOrder(@RequestBody @Valid OrderRequest tables){
+    public ResponseEntity<HResponse> addOrder(@RequestBody @Valid OrderRequest orderRequest){
 
-        orderService.addOrder(tables);
+        orderService.addOrder(orderRequest);
         HResponse response = new HResponse(ResponseMessage.ORDER_IS_SAVED,true);
         return ResponseEntity.ok(response);
     }

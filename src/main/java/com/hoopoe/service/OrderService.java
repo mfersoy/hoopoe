@@ -71,7 +71,7 @@ public class OrderService {
 
         Double estimatedTotal = 0.0D;
         for(CartItem item : cartItems){
-            estimatedTotal += item.getProduct().getPrice();
+            estimatedTotal += item.getProduct().getPrice()*item.getQuantity();
         }
 
 
