@@ -1,5 +1,6 @@
 package com.hoopoe.domain;
 
+import com.hoopoe.domain.enums.OrderStatusType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,8 +47,7 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "orderdetail_id"))
     private Set<OrderDetail> orderDetailSet = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(name = "t_order_orderstatus", joinColumns = @JoinColumn(name ="order_id"),
-            inverseJoinColumns = @JoinColumn(name = "orderstatus_id"))
-    private Set<OrderStatus> orderStatuses = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    @Column(length = 30, nullable = false)
+    private OrderStatusType orderStatusType;
 }

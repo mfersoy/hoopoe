@@ -43,7 +43,7 @@ public class OrderService {
     private OrderMapper orderMapper;
 
 
-    public void addOrder(OrderRequest tables){
+    public void addOrder(OrderRequest orderRequest){
 
         Order order = new Order();
         User user = userService.getCurrentUser();
@@ -51,6 +51,8 @@ public class OrderService {
         Set<OrderDetail> orderDetailSet = new HashSet<>();
 
         List<CartItem> cartItems = shoppingCartService.listCartItems(user);
+
+
 
         for(CartItem cartItem : cartItems){
             OrderDetail orderDetail = new OrderDetail();
@@ -73,13 +75,14 @@ public class OrderService {
         }
 
 
-        order.setTables(tables.getTable());
+        order.setTables(orderRequest.getTable());
         order.setFirstName(user.getFirstName());
         order.setLastName(user.getLastName());
         order.setOrderDetailSet(orderDetailSet);
         order.setLocalDateTime(localDateTime);
         order.setTotalPrice(estimatedTotal);
         order.setUser(user);
+        order.setOrderStatusType(OrderStatusType.ORDER_CREATED);
 
         orderRepository.save(order);
         cartItemRepository.deleteAll();
@@ -125,13 +128,6 @@ public class OrderService {
     }
 
 
-    public List<OrderDTO> getUserOrdersByStatus(String status){
 
-        List<Order> orders = orderRepository.findByStatus(status);
-        List<OrderDTO> orderDTOS= new ArrayList<>();
-        orders.forEach(order ->orderDTOS.add(orderMapper.orderToOrderDTO(order)));
-        return orderDTOS;
-
-    }
 
 }

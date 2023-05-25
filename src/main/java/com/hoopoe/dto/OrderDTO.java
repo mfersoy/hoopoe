@@ -1,14 +1,12 @@
 package com.hoopoe.dto;
 
 import com.hoopoe.domain.OrderDetail;
-import com.hoopoe.domain.User;
-import com.hoopoe.mapper.OrderMapper;
-import com.hoopoe.repository.OrderDetailRepository;
+import com.hoopoe.domain.enums.OrderStatusType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -32,6 +30,8 @@ public class OrderDTO {
     private LocalDateTime localDateTime;
 
     private String user;
+
+    private OrderStatusType orderStatusType;
 
     private Map<String,Integer> orderDetailSet;
 
